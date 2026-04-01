@@ -8,20 +8,20 @@ terraform {
 }
 provider "aws" {
 
-  region = "eu-central-1"
-  access_key = var.aws_access_key 
+  region     = "eu-central-1"
+  access_key = var.aws_access_key
   secret_key = var.aws_secret_key
 }
 
 data "aws_vpc" "dev-vpc" {
-    filter {
+  filter {
 
-        name = "tag:Name"
-        values = ["dev-vpc"]
-    }
+    name   = "tag:Name"
+    values = ["dev-vpc"]
+  }
 }
 
 output "vpc-name" {
-    value = data.aws_vpc.dev-vpc.cidr_block
-  
+  value = data.aws_vpc.dev-vpc.cidr_block
+
 }
