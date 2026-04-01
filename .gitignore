@@ -1,0 +1,45 @@
+################################################################################
+# Terraform: keep configs, ignore generated state & local metadata
+################################################################################
+
+# Local modules & provider plugins
+.terraform/
+
+# State files
+*.tfstate
+*.tfstate.*
+
+# Sensitive variable definitions
+*.tfvars
+*.tfvars.json
+
+# Crash logs
+crash.log
+crash.*.log
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Override files that are often used locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terragrunt cache (if you use Terragrunt alongside Terraform)
+.terragrunt-cache/
+
+# TFEnv version manager
+.tfenv/
+
+################################################################################
+# Misc: system/editor noise
+################################################################################
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# VS Code settings (optional—remove if you want these tracked)
+.vscode/
