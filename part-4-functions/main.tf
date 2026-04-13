@@ -1,0 +1,48 @@
+# Get information about the current Region
+
+# Static configuration with hardcoded values
+data "aws_region" "current" {}
+
+# Get the current caller identity
+data "aws_caller_identity" "current" {}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
+resource "aws_vpc" "production" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = local.tags
+}
+
+resource "aws_subnet" "private" {
+  vpc_id                  = aws_vpc.production.id
+  cidr_block              = var.subnet_cidr
+  availability_zone       = data.aws_availability_zones.available.names[0]
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name        = "${var.environment}-private-subnet"
+    Environment = var.environment
+    Project     = var.project_name
+    ManagedBy   = "terraform"
+    Region      = data.aws_region.current.id
+    AZ          = data.aws_availability_zones.available.names[0]
+  }
+}
+
+resource "aws_route_table" "static" {
+  vpc_id = aws_vpc.production.id
+
+  tags = {
+    Name        = "${var.environment}-route-table"
+    Environment = var.environment
+    Project     = var.project_name
+    ManagedBy   = "terraform"
+    Region      = data.aws_region.current.id
+  }
+}
